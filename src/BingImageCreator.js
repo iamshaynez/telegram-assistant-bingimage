@@ -21,7 +21,7 @@ export default class BingImageCreator {
         this.options = {
           ...options,
           host: options.host || 'https://www.bing.com',
-          apipath: options.apipath || '/images/create?partner=sydney&re=1&showselective=1&sude=1',
+          apipath: options.apipath || '/images/create?',
           ua:
             options.ua ||
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35',
@@ -129,7 +129,7 @@ export default class BingImageCreator {
                   this.options.cookies ||
                   (this.options.userToken ? `_U=${this.options.userToken}` : undefined),
                 pragma: 'no-cache',
-                referer: 'https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx',
+                referer: 'https://www.bing.com/images/create/',
                 'Referrer-Policy': 'origin-when-cross-origin',
                 // Workaround for request being blocked due to geolocation
                 ...(this.options.xForwardedFor
@@ -257,10 +257,8 @@ export default class BingImageCreator {
         telemetryData = `&kseed=${this.telemetry.getNextKSeed()}&SFX=${this.telemetry.getNextInstSuffix()}`
       }
   
-      // https://www.bing.com/images/create?partner=sydney&re=1&showselective=1&sude=1&kseed=8000&SFX=3&q=${encodeURIComponent(prompt)}&iframeid=${messageId}
-      const url = `${this.apiurl}${telemetryData}&q=${encodeURIComponent(prompt)}${
-        messageId ? `&iframeid=${messageId}` : ''
-      }`
+      // https://www.bing.com/images/create?q=${encodeURIComponent(prompt)}&rt=4&FORM=GENCRE
+      const url = `${this.apiurl}q=${encodeURIComponent(prompt)}&rt=4&FORM=GENCRE`
   
       if (this.debug) {
         console.debug(`The url of the request for image creation: ${url}`)

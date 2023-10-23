@@ -8,7 +8,7 @@ export async function createImagesFromBing(sentence) {
     // Setup the required options.
     const options = {
         // Necessary for some people in different countries, e.g. China (https://cn.bing.com)
-        host: "https://cn.bing.com",
+        host: "",
         // The "_U" cookie value from bing.com
         userToken: ENV.BING_TOKEN,
         // If the above doesn't work, provide all your cookies as a string instead
