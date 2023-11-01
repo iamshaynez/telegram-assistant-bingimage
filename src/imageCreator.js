@@ -23,8 +23,19 @@ export async function createImagesFromBing(sentence) {
 
     console.log(`Bing Token: ${ENV.BING_TOKEN}`)
     console.log(`Bing Cookie: ${ENV.BING_COOKIE}`)
-    let imageList = await new BingImageCreator(options).genImageList(sentence, "123")
+    let imageList = await new BingImageCreator(options).genImageList(sentence, generateRandomHex())
 
     //console.log(`Images: ${imageList}`)
     return responseToAssistant(sentence, imageList);
+}
+
+function generateRandomHex() {
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+        // Math.random() generates a random number between 0 and 1,
+        // so we multiply by 0x100000000 (2^32) to get a number between 0 and 2^32
+        // then we floor it to get an integer and finally convert it to hex.
+        result += (Math.floor(Math.random() * Math.pow(2, 32))).toString(16).padStart(8, '0');
+    }
+    return result;
 }

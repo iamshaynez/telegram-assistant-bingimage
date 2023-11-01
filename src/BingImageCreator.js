@@ -24,7 +24,7 @@ export default class BingImageCreator {
           apipath: options.apipath || '/images/create?',
           ua:
             options.ua ||
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.35',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63',
           xForwardedFor: this.constructor.getValidIPv4(options.xForwardedFor),
           features: {
             enableAnsCardSfx: true,
@@ -111,7 +111,9 @@ export default class BingImageCreator {
                 accept:
                   'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                 'accept-language': 'en-US,en;q=0.9',
-                'cache-control': 'no-cache',
+                'cache-control': 'max-age=0',
+                'content-type': 'application/x-www-form-urlencoded',
+                'origin': 'https://www.bing.com',
                 'sec-ch-ua': '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
                 'sec-ch-ua-arch': '"x86"',
                 'sec-ch-ua-bitness': '"64"',
@@ -129,7 +131,7 @@ export default class BingImageCreator {
                   this.options.cookies ||
                   (this.options.userToken ? `_U=${this.options.userToken}` : undefined),
                 pragma: 'no-cache',
-                referer: 'https://www.bing.com/images/create/',
+                referer: 'https://www.bing.com/images/create?FORM=GENILP',
                 'Referrer-Policy': 'origin-when-cross-origin',
                 // Workaround for request being blocked due to geolocation
                 ...(this.options.xForwardedFor
