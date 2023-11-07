@@ -114,19 +114,6 @@ export default class BingImageCreator {
                 'cache-control': 'max-age=0',
                 'content-type': 'application/x-www-form-urlencoded',
                 'origin': 'https://www.bing.com',
-                'sec-ch-ua': '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                'sec-ch-ua-arch': '"x86"',
-                'sec-ch-ua-bitness': '"64"',
-                'sec-ch-ua-full-version': '"113.0.1774.35"',
-                'sec-ch-ua-full-version-list':
-                  '"Microsoft Edge";v="113.0.1774.35", "Chromium";v="113.0.5672.63", "Not-A.Brand";v="24.0.0.0"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-model': '""',
-                'sec-ch-ua-platform': '"Windows"',
-                'sec-ch-ua-platform-version': '"11.0.0"',
-                'sec-fetch-dest': 'iframe',
-                'sec-fetch-mode': 'navigate',
-                'sec-fetch-site': 'same-origin',
                 cookie:
                   this.options.cookies ||
                   (this.options.userToken ? `_U=${this.options.userToken}` : undefined),

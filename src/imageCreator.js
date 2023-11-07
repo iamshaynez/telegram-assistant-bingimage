@@ -1,5 +1,5 @@
 import { ENV } from "./env";
-import BingImageCreator from "./BingImageCreator.js"
+import BingImageCreator from "./BingImageCreatorV2.js"
 import { responseToAssistant } from "./util";
 
 // Default chinese to english. Currently there is no way to adopt other langs.
@@ -23,12 +23,13 @@ export async function createImagesFromBing(sentence) {
 
     console.log(`Bing Token: ${ENV.BING_TOKEN}`)
     console.log(`Bing Cookie: ${ENV.BING_COOKIE}`)
-    let imageList = await new BingImageCreator(options).genImageList(sentence, generateRandomHex())
+    let imageList = await new BingImageCreator(options).genImages(sentence, generateRandomHex())
 
     //console.log(`Images: ${imageList}`)
     return responseToAssistant(sentence, imageList);
 }
 
+// This function generates a random hexadecimal string of length 8
 function generateRandomHex() {
     let result = '';
     for (let i = 0; i < 8; i++) {
@@ -39,3 +40,4 @@ function generateRandomHex() {
     }
     return result;
 }
+
