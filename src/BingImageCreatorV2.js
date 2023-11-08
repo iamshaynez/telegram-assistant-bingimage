@@ -1,5 +1,7 @@
 export default class BingImageCreator {
     /**
+     * only cookies is used for now. Any other options will be ignored.
+     * 
      * @constructor
      * @param {Object} options - Options for BingImageCreator.
      */
@@ -37,12 +39,27 @@ export default class BingImageCreator {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
+    /**
+     * Steps for hook bing image creator.
+     * 
+     * 1. Set bunch of headers, including cookie.
+     * 2. Post first URL with redirect forbidden to get next URL from headers.Location
+     * 3. Use the redirect URL to post the actual request
+     * 4. Use polling URL to get the result.
+     * 
+     * 
+     * @param {*} prompt 
+     * @returns list of image urls
+     */
     async genImages(prompt) {
+
+        // 1. Post the first URL with redirect false
         console.log(`Sending requests to Bing...`);
         const encoded_prompt = encodeURIComponent(prompt);
         // https://www.bing.com/images/create?q=${encodeURIComponent(prompt)}&rt=4&FORM=GENCRE
         const url = `https://www.bing.com/images/create?q=${encoded_prompt}&rt=4&FORM=GENCRE`;
         const payload = `q=${encoded_prompt}&qs=ds`;
+
         console.log(`Requesting URL: ${url}`);
         console.log(`options: ${JSON.stringify(this.options)}`);
         let response = await fetch(url, {
@@ -55,27 +72,31 @@ export default class BingImageCreator {
         const { status } = response;
         console.info(`status: ${status}`);
         console.info(`response headers as below...`);
+        // print headers
         response.headers.forEach((value, name) => {
             console.log(name, value);
         });
 
-        //console.log(await response.text())
+        // the response should be 302 redirect.
         if (status !== 302) {
             throw new Error(
                 `Bing Image Creator Not as Expected: response status = ${status}`
             );
         }
 
+        // find the next URL in location header
         let redirect_url = `https://www.bing.com/${response.headers
             .get("Location")
             .replace("&nfy=1", "")}`;
         console.log(`Redirect URL: ${redirect_url}`);
         const requestID = redirect_url.split("id=")[1];
         console.log(`Request ID: ${requestID}`);
+
+        // hard coded polling URL
         const pollingUrl = `https://www.bing.com/images/create/async/results/${requestID}?q${encoded_prompt}`;
 
+        // actual post the request. no need to use its response.
         console.log(`Sending request to redirect url...${redirect_url}`);
-
         await fetch(redirect_url, {
             method: "POST",
             body: payload,
@@ -83,6 +104,7 @@ export default class BingImageCreator {
             redirect: "manual",
         });
 
+        // start polling results.
         let start_wait = Date.now();
         let body;
 
