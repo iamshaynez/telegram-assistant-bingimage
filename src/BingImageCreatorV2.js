@@ -7,10 +7,6 @@ export default class BingImageCreator {
         this.setOptions(options);
     }
 
-    /**
-     * Set options for BingImageCreator.
-     * @param {Object} options - Options for BingImageCreator. The format of the options is almost same as the bingAiClient options of 'node-chatgpt-api'.
-     */
     setOptions(options) {
         this.options = {
             host: "https://www.bing.com",
@@ -40,15 +36,6 @@ export default class BingImageCreator {
     static sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
-
-    /**
-     * @typedef {Object} BicCreationResult
-     * @property {string} contentUrl - A URL pointing to the creation page.
-     * @property {string} pollingUrl - The URL to poll the image creation request.
-     * @property {string} contentHtml - The source code of the creation page.
-     * @property {string} prompt - The prompt for the image generation.
-     * @property {string} iframeid -  The message ID refers to the image generation.
-     */
 
     async genImages(prompt) {
         console.log(`Sending requests to Bing...`);
