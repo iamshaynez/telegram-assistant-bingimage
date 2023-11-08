@@ -131,10 +131,14 @@ export default class BingImageCreator {
             }
         }
 
+        // https://th.bing.com/th/id/OIG.Wr5AY_H_e.QxPtRypWe2?pid=ImgGn&w=1024&h=1024&rs=1
+        // https://th.bing.com/th/id/OIG.Wr5AY_H_e.QxPtRypWe2?w=270&h=270&c=6&r=0&o=5&dpr=2&pid=ImgGn
         let regex = /src="([^"]+)"/g;
         let imageLinks = body.match(regex).map(src => src.replace('src="', '').replace('"', ''));
+        // remove size limit
+        let normalImageLinks = imageLinks.map(link => link.split("?w=")[0]);
 
-        console.log(`Complete fetching image list...${imageLinks}`);
-        return imageLinks;
+        console.log(`Complete fetching image list...${normalImageLinks}`);
+        return normalImageLinks;
     }
 }
